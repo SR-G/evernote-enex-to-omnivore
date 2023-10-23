@@ -26,7 +26,7 @@ var enexInputFiles string
 var resumeFrom string
 var skipIds string
 var omnivoreUrl string = "https://api-prod.omnivore.app/api/graphql"
-var omnivoreAPIKey string = "547e1bcd-c948-4ce1-9a1f-0a8831be4840"
+var omnivoreAPIKey string
 var alreadyPublishedIDFilename = ".cache"
 var processCount int = -1
 
@@ -435,6 +435,11 @@ func main() {
 	if len(enexInputFiles) == 0 {
 		fmt.Println("Please provide input files with --input")
 		os.Exit(3)
+	}
+
+	if len(omnivoreAPIKey) == 0 {
+		fmt.Println("Please provide an Omnivore API key (through --api command line parameter)")
+		os.Exit(5)
 	}
 
 	enexInputFilesToProcess := extractTokensFromCLIParameter(enexInputFiles)

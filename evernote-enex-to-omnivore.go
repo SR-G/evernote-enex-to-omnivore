@@ -225,6 +225,16 @@ func process(previewMode bool, enexInputFilesToProcess []string, resumeFrom stri
 						fmt.Println("Stopping, as [" + strconv.Itoa(cnt) + "] entries have been processed")
 						break
 					}
+
+					// each N items, let's do a pause to not exhaust rate limiter ...
+					// TODO a better algorithm would be needed (to dynamically adjust wait timing, but this is
+					// definitely out-of-scope for such a "one use only" script)
+					if cnt%100 == 0 {
+						fmt.Println("")
+						fmt.Println("100 entries executed in a row - let's wait 50 seconds to be sure to not exhaust the Omnivore rate limiter")
+						fmt.Println("")
+						time.Sleep(50 * time.Second)
+					}
 				}
 
 			} else {

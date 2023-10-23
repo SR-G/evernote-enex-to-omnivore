@@ -3,10 +3,10 @@
 - [Evernote to Omninove CLI](#evernote-to-omninove-cli)
   - [Principle](#principle)
   - [Usage](#usage)
-  - [Rate limiter](#rate-limiter)
   - [Disclaimer](#disclaimer)
   - [Procedure (how to use this CLI)](#procedure-how-to-use-this-cli)
   - [Example of execution](#example-of-execution)
+  - [Rate limiter](#rate-limiter)
   - [Links](#links)
   - [Documentations](#documentations)
 
@@ -49,27 +49,6 @@ Notes :
 - `--skip UUID1,UUI2` is useful is there are some entries for which some troubles are happening (too big content for example)
 - `--resume-from <UUID>` allows to skip all the entries BEFORE the entry provided with that parameter
 
-## Rate limiter
-
-Keep in mind there is a **rate limiter** on Omnivore, allowing at max 100 requests per minutes. You have to handle this by yourself.
-
-**Solution #1**
-
-Add a small delay inside the `evernote-enex-to-omnivore.go` (like a 1 seconds sleep)
-
-**Solution #2** 
-
-Just batch the command
-
-```bash
-while [[ true ]] ; do
-  go run . ... -c 90 
-  sleep 60
-done
-```
-
-And break the script once everything has been processed
-
 ## Disclaimer
 
 This is a one shot program that i fully used on my side with great success, but probably not a very polished one : 
@@ -81,16 +60,16 @@ This is a one shot program that i fully used on my side with great success, but 
 ## Procedure (how to use this CLI)
 
 1. Create `.enex` files (for example, under Windows, through the official Evernote desktop client installed from the MS Store - select a notebook, use the `...` button and select the `Export notebook` entry - note : it is adviced to split them in 2GB files, as proposed by the Evernote client during the export)
-2. (under linux) GIT clone this project : `git clone `
-3. cd into it `cd `
+2. (under linux) GIT clone this project : `git clone https://github.com/SR-G/evernote-enex-to-omnivore.git`
+3. cd into it `cd evernote-enex-to-omnivore`
 4. Put all your `.enex` files in that folder (for example in a `resources/` subfolder)
 5. Prepare the go package : `go mod tidy`
-6. Create your API key inside Omnivore, per the Omnivore documentation : 
-7. Launch the tool once, in preview mode, with only a subset of entries (10 here) : `go run . --input resources/Mes\ notes.0.enex --api XXXXXXXXXXXXXXXXXXX -c 10 --preview`
-8. Check the results ...
+6. Create your API key inside Omnivore, per the Omnivore documentation : https://docs.omnivore.app/integrations/api.html (chapter "Getting an API token")
+7. Launch the tool once, in preview mode, with only a subset of entries (10 here), to see how it's behaving : `go run . --input resources/Mes\ notes.0.enex --api XXXXXXXXXXXXXXXXXXX -c 10 --preview`
+8. Check the results in the logs ...
 9. If everything is fine, launch without the "preview" mode : ``go run . --input resources/Mes\ notes.0.enex --api XXXXXXXXXXXXXXXXXXX -c 10` 
 10. Check in Omnivore that you see your entries (as "Archived" entries)
-11. Launch the tool again, at max 100 by 100 if you want to be sure to not exhaust
+11. Launch the tool again (see one of the next chapter about rate limiter, also)
 
 ## Example of execution
 
@@ -116,8 +95,33 @@ Total number of items processed as URL : 47
 Total number of items processed as Article : 3
 Total number of errors while saving as URL : 0
 Total number of errors while saving as Article : 0
-
 ```
+
+## Rate limiter
+
+Keep in mind there is a **rate limiter** on Omnivore, allowing at max 100 requests per minutes. You have to handle this by yourself.
+
+**Solution #1**
+
+Add a small delay inside the `evernote-enex-to-omnivore.go` (like a 1 seconds sleep)
+
+**Solution #2** 
+
+Just batch the command
+
+```bash
+while [[ true ]] ; do
+  go run . ... -c 90 
+  sleep 60
+done
+```
+
+And break the script once everything has been processed
+
+**Solution #3** 
+
+There is now a 50 seconds delay inside the script (each 100 entries), so you can also launch it in "infinite mode" (`-c 2000`, `-c -1`, or not defining that parameter at all) and it should be OK (provided Omnivore doesn't change the rate limiter values over time - be careful about that).
+
 
 ## Links
 

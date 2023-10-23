@@ -84,18 +84,13 @@ func initRegexp() {
 }
 
 func cleanUrl(s string) string {
-	// 's/[\?;]utm_source.*$//' -e 's/[\?;]utm_campaign.*$//' -e 's/\?mkt_tok.*$//' -e 's/\?utm_medium.*$//' -e 's/\?utm_term.*$//' -e 's/\?%24deep_link.*$//' -e 's/\?idg_eid.*$//'
-
 	for _, matcher := range regexpsCompiled {
 		s = matcher.ReplaceAllString(s, "")
 	}
-
 	return s
-
 }
 
 func checkOnlineStatus(url string) (bool, int) {
-
 	client := &http.Client{}
 	req, err := http.NewRequest("GET", url, nil)
 	if err != nil {
@@ -127,7 +122,6 @@ func checkOnlineStatus(url string) (bool, int) {
 }
 
 func process(previewMode bool, enexInputFilesToProcess []string, resumeFrom string, idsToBeSkipped []string) error {
-
 	awaitForSpecificID := false
 	specificIdFound := false
 	if len(resumeFrom) != 0 {

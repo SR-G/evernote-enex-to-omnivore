@@ -29,7 +29,7 @@ evernote
   Flags: 
        --version       Displays the program version string.
     -h --help          Displays help with available flag, subcommand, and positional value parameters.
-    -a --api           OMNIVORE APIKey (default: 547e1bcd-c948-4ce1-9a1f-0a8831be4840)
+    -a --api           OMNIVORE APIKey (mandatory)
     -u --url           OMNIVORE Graphql HTTP endpoint / URL (optional) (default: https://api-prod.omnivore.app/api/graphql)
     -i --input         Input files, comma separated (like '-i file1.enex,file2.enex')
     -p --preview       Activate preview mode (optional)

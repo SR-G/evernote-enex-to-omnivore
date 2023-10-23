@@ -124,12 +124,12 @@ There is now a 50 seconds delay inside the script (each 100 entries), so you can
 
 ## Links
 
-https://pkg.go.dev/github.com/rafaelespinoza/notexfr/internal/repo/enex
-https://evernote.com/blog/how-evernotes-xml-export-format-works/.
-https://github.com/wormi4ok/evernote2md/blob/master/main.go
-https://github.com/macrat/go-enex
-
-https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts
+- Go library about processing `.enex` files 
+  - https://pkg.go.dev/github.com/rafaelespinoza/notexfr/internal/repo/enex
+  - https://github.com/wormi4ok/evernote2md/blob/master/main.go
+  - https://github.com/macrat/go-enex
+- Evernote specification for `.enex` files : https://evernote.com/blog/how-evernotes-xml-export-format-works/.
+- Omnivore GraphQL Schema : https://github.com/omnivore-app/omnivore/blob/main/packages/api/src/schema.ts
 
 ## Documentations
 

@@ -43,7 +43,6 @@ Example :
 ```bash
 go run . --input resources/Mes\ notes.0.enex --skip "33613733-6465-3435-6565-393639393233,63343733-3538-6266-6461-636431383537" -c 50 --api XXXXXXXXXXXXXXXXXXX
 ```
-
 Notes : 
 
 - `--skip UUID1,UUI2` is useful is there are some entries for which some troubles are happening (too big content for example)
@@ -55,7 +54,7 @@ This is a one shot program that i fully used on my side with great success, but 
 - **code is readabable but not really great** ...
 - **no binaries are provided** at this time (you need to run it with go)
 - **no guarantees that it will work for you** - it worked really fine on my side to migrate ~4000 web saved pages, but you may encounter different corner cases in your own situation (= please do iterative tests, as stated below)
-
+- **it's not designed to be fast** (not multi-threading, no optimizations, ...), but, well, you are probably going to only use it once
 
 ## Procedure (how to use this CLI)
 

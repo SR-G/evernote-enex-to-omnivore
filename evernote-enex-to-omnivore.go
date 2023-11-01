@@ -25,6 +25,8 @@ var previewMode bool
 var enexInputFiles string
 var resumeFrom string
 var skipIds string
+var forceArticle bool
+var forceURL string
 var omnivoreUrl string = "https://api-prod.omnivore.app/api/graphql"
 var omnivoreAPIKey string
 var alreadyPublishedIDFilename = ".cache"
@@ -173,6 +175,15 @@ func process(previewMode bool, enexInputFilesToProcess []string, resumeFrom stri
 				skipReason = "skipped ID from .cache previous file"
 			}
 
+			if len(forceURL) > 0 {
+				if strings.HasPrefix(sourceUrl, forceURL) {
+					skip = false
+				} else {
+					skip = true
+					skipReason = "skipped URL as not matching --force-url one"
+				}
+			}
+
 			if (!awaitForSpecificID || (awaitForSpecificID && specificIdFound)) && !skip {
 				results[uuid] = &NoteProcessingResult{uuid: uuid, url: sourceUrl, processed: true}
 				labels := []string{"IMPORT/Evernote"}
@@ -199,6 +210,11 @@ func process(previewMode bool, enexInputFilesToProcess []string, resumeFrom stri
 						results[uuid].stillOnline = true
 						processAsURL = true
 					}
+				}
+
+				if forceArticle {
+					processAsArticle = true
+					processAsURL = false
 				}
 
 				if !previewMode {
@@ -414,6 +430,8 @@ func main() {
 	results = make(map[string]*NoteProcessingResult)
 
 	// Input line parameters
+	flaggy.SetName("evernote-enex-to-omnivore")
+	flaggy.SetVersion("0.0.1")
 	flaggy.String(&omnivoreAPIKey, "a", "api", "OMNIVORE APIKey")
 	flaggy.String(&omnivoreUrl, "u", "url", "OMNIVORE Graphql HTTP endpoint / URL (optional)")
 	flaggy.String(&enexInputFiles, "i", "input", "Input files, comma separated (like '-i file1.enex,file2.enex')")
@@ -421,6 +439,8 @@ func main() {
 	flaggy.String(&resumeFrom, "r", "resume-from", "ID (hash) of the last valid URL : only the following URL will be processed (optional)")
 	flaggy.String(&skipIds, "s", "skip", "IDs (hash) to be skipped (like '-s ID1,ID2') (optional)")
 	flaggy.Int(&processCount, "c", "count", "Number of items to process (optional, default -1)")
+	flaggy.Bool(&forceArticle, "fa", "force-article", "Force saving as articles")
+	flaggy.String(&forceURL, "fu", "force-url", "Force one specific URL")
 
 	flaggy.Parse()
 

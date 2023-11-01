@@ -24,25 +24,40 @@ All successfully processed entries are put in a `.cache` file, in order to not b
 Available commands : 
 
 ```bash
-evernote
+evernote-enex-to-omnivore
 
   Flags: 
-       --version       Displays the program version string.
-    -h --help          Displays help with available flag, subcommand, and positional value parameters.
-    -a --api           OMNIVORE APIKey (mandatory)
-    -u --url           OMNIVORE Graphql HTTP endpoint / URL (optional) (default: https://api-prod.omnivore.app/api/graphql)
-    -i --input         Input files, comma separated (like '-i file1.enex,file2.enex')
-    -p --preview       Activate preview mode (optional)
-    -r --resume-from   ID (hash) of the last valid URL : only the following URL will be processed (optional)
-    -s --skip          IDs (hash) to be skipped (like '-s ID1,ID2') (optional)
-    -c --count         Number of items to process (optional, default -1) (default: -1)
+       --version         Displays the program version string.
+    -h --help            Displays help with available flag, subcommand, and positional value parameters.
+    -a --api             OMNIVORE APIKey
+    -u --url             OMNIVORE Graphql HTTP endpoint / URL (optional) (default: https://api-prod.omnivore.app/api/graphql)
+    -i --input           Input files, comma separated (like '-i file1.enex,file2.enex')
+    -p --preview         Activate preview mode (optional)
+    -r --resume-from     ID (hash) of the last valid URL : only the following URL will be processed (optional)
+    -s --skip            IDs (hash) to be skipped (like '-s ID1,ID2') (optional)
+    -c --count           Number of items to process (optional, default -1) (default: -1)
+    -fa --force-article   Force saving as articles
+    -fu --force-url       Force one specific URL
 ```
 
-Example : 
+Example of a regular execution : 
+
+```bash
+go run . --input resources/Mes\ notes.0.enex -c 50 --api XXXXXXXXXXXXXXXXXXX
+```
+
+Example of an execution by skipping some IDs (note : you can also add them in the `.cache` local file, same folder) : 
 
 ```bash
 go run . --input resources/Mes\ notes.0.enex --skip "33613733-6465-3435-6565-393639393233,63343733-3538-6266-6461-636431383537" -c 50 --api XXXXXXXXXXXXXXXXXXX
 ```
+
+Example of an execution by forcing again a specific URL (in order to reprocess it here by forcing it as an article) : 
+
+```bash
+go run . --input resources/Mes\ notes.0.enex -c 1 --force-article --force-url "http://remote-url-not-available-online-anymore.com/" --api XXXXXXXXXXXXXXXXXXX
+```
+
 Notes : 
 
 - `--skip UUID1,UUI2` is useful is there are some entries for which some troubles are happening (too big content for example)
